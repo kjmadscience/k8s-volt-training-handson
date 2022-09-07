@@ -15,9 +15,9 @@ Tools needed on participant's system:
 
 The above tools can be installed following the links provided below. The links are official documents and cover the steps for all possible operating systems.
 
-[Gcloud](https://cloud.google.com/sdk/docs/install)
-[Kubectl](https://kubernetes.io/docs/tasks/tools/)
-[helm](https://helm.sh/docs/intro/install/)
+:link: [Gcloud](https://cloud.google.com/sdk/docs/install)
+:link: [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+:link: [helm](https://helm.sh/docs/intro/install/)
 
 
 Once installation is done, we are going to check if the installed tools are working fine.
@@ -68,4 +68,20 @@ No resources found in training-1 namespace.
 ```
 
 This ensures gcloud access, kubernetes cluster and kubectl are working as we expect and we can move to the next step of verifying Helm Repo access.
+We will begin with adding the Volt Repo using `helm repo add [NAME] [URL]` command. (URL will be shared separately)
+Let us check the charts available in this repo,
 
+```
+bash-5.1$ helm search repo voltdb/voltdb --versions
+NAME         	CHART VERSION	APP VERSION	DESCRIPTION
+voltdb/voltdb	1.8.2        	11.4.1     	The Helm chart for VoltDB
+voltdb/voltdb	1.8.1        	11.4.0     	A Helm chart for VoltDB
+voltdb/voltdb	1.8.0        	11.4.0     	A Helm chart for VoltDB
+voltdb/voltdb	1.7.5        	11.3.2     	A Helm chart for VoltDB
+voltdb/voltdb	1.7.4        	11.3.2     	A Helm chart for VoltDB
+.......
+```
+---
+### Installing Volt Cluster
+
+Now we are getting into the real stuff :test_tube:
