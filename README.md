@@ -119,14 +119,14 @@ Pods, services, statefulsets and deployments, replicaset and volt-logs
 Happy scenario things will looks something like this,
 1. Pods
 ```
-bash-5.1$ kubectl get pods -n train-2
+$ kubectl get pods -n train-2
 NAME                                     READY   STATUS    RESTARTS   AGE
 mydb2-voltdb-cluster-0                   1/1     Running   0          2m8s
 mydb2-voltdb-cluster-1                   1/1     Running   0          2m8s
 mydb2-voltdb-cluster-2                   1/1     Running   0          2m8s
 mydb2-voltdb-operator-79d4cb5b78-t4dgw   1/1     Running   0          2m15s
 
-bash-5.1$ kubectl get pods -n train-2 -o wide
+$ kubectl get pods -n train-2 -o wide
 NAME                                     READY   STATUS    RESTARTS   AGE     IP            NODE                                                  NOMINATED NODE   READINESS GATES
 mydb2-voltdb-cluster-0                   1/1     Running   0          2m13s   10.112.1.13   gke-training-yellow-pheo-default-pool-a05d229c-n3wt   <none>           <none>
 mydb2-voltdb-cluster-1                   1/1     Running   0          2m13s   10.112.0.18   gke-training-yellow-pheo-default-pool-a05d229c-1jff   <none>           <none>
@@ -136,7 +136,7 @@ mydb2-voltdb-operator-79d4cb5b78-t4dgw   1/1     Running   0          2m20s   10
 ```
 2. Services
 ```
-bash-5.1$ kubectl get services -n train-2
+$ kubectl get services -n train-2
 NAME                            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                   AGE
 mydb2-voltdb-cluster-client     ClusterIP   10.116.12.98   <none>        21211/TCP,21212/TCP                                       2m54s
 mydb2-voltdb-cluster-http       ClusterIP   10.116.1.142   <none>        8080/TCP                                                  2m54s
@@ -162,7 +162,7 @@ mydb2-voltdb-operator-79d4cb5b78   1         1         1       4m18s
 
 4. Volt Logs
 ```
-bash-5.1$ kubectl logs -f mydb2-voltdb-cluster-1 -n train-2
+$ kubectl logs -f mydb2-voltdb-cluster-1 -n train-2
 2022-09-08 09:36:48,978 INFO     voltboot  ==== VoltDB startup controller for Kubernetes ====
 2022-09-08 09:36:48,978 INFO     voltboot  GMT is: 2022-09-08 09:36:48 LOCALTIME is: 2022-09-08 09:36:48 TIMEZONE OFFSET is: 0
 2022-09-08 09:36:48,978 INFO     voltboot  Running under Python 3.9.5
@@ -178,13 +178,29 @@ bash-5.1$ kubectl logs -f mydb2-voltdb-cluster-1 -n train-2
 2022-09-08 09:36:52,541 INFO     voltboot  Initializing a new VoltDB database in '/pvc/voltdb'
 ......
 ```
+### Verify configuration file
+
+Decode the init secret for your deployment to verify the relevant file created is as exepected. 
+```
+$ kubectl get secrets -n train-2
+NAME                                TYPE                                  DATA   AGE
+default-token-cxxfd                 kubernetes.io/service-account-token   3      79m
+dockerio-registry                   kubernetes.io/dockerconfigjson        1      41m
+mydb2-voltdb-cluster-auth           Opaque                                0      23m
+mydb2-voltdb-cluster-init           Opaque                                2      23m
+mydb2-voltdb-cluster-token-gbxwd    kubernetes.io/service-account-token   3      23m
+mydb2-voltdb-operator-token-j8gm4   kubernetes.io/service-account-token   3      23m
+sh.helm.release.v1.mydb2.v1         helm.sh/release.v1                    1      23m
+
+```
+
 ### Creating Schema
 
 Use provided SQL file to create schema in the cluster. use SQLCMD to access the Database interactively. You can use any one of the various methods described in the training to access SQLCMD.
 
 1. Port forwarding
 ```
-bash-5.1$ kubectl get pods -n train-2
+$ kubectl get pods -n train-2
 NAME                                     READY   STATUS    RESTARTS   AGE
 mydb2-voltdb-cluster-0                   1/1     Running   0          8m57s
 mydb2-voltdb-cluster-1                   1/1     Running   0          8m57s
@@ -215,7 +231,7 @@ Batch command succeeded.
 ```
 2. Run some ad-hoc queries to check the schema you just loaded.
 ```
-bash-5.1$ kubectl exec -it mydb2-voltdb-cluster-1 -n train-2 -- sqlcmd
+ $ kubectl exec -it mydb2-voltdb-cluster-1 -n train-2 -- sqlcmd
 SQL Command :: localhost:21212
 1> show tables;
 
@@ -247,3 +263,24 @@ The relevant documentation can be found :link: [here](https://docs.voltdb.com/Ku
 
 Use Helm voltadmin to pause the cluster, then use it again to resume the cluster.
 
+### Making changes to the deployment
+
+Changes in volt are made using helm upgrade and helm properties. for our practice, we are going to change two properties of your environment.
+1. Adding export configurations - no restart required
+2. Enable Command logging - Restart required
+
+The relevant documentation can be found :link: [here](https://docs.voltdb.com/KubernetesAdmin/OpsUpdateClusterConfig.php#UpdateDbRestart)
+
+
+### XDCR
+
+Let us begin a XDCR setup with 2 clusters in different regions, using PER-POD node port configuraion.
+Replicate the environment outlined in the presentation chapter 05 XDCR scenario 1.
+
+
+Verify XDCR is setup correctly by checking the various statistics and log messages.
+```
+exec @Statistics DRROLE 0;
+exec @Statistics DRCONSUMER 0;
+exec @Statistics DRPRODUCER 0;
+exec @Statistics XDCR_READINESS 0;
