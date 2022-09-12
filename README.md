@@ -31,7 +31,7 @@ gcloud auth login
 gcloud config set account <<your-email-id>>
 gcloud config set project amdocs-volt-training
 
-$ gcloud container clusters get-credentials training-yellow-pheonix --zone europe-west1-c --project fourth-epigram-293718
+$ gcloud container clusters get-credentials training-yellow-pheonix --zone us-central1-a --project amdocs-volt-training
 Fetching cluster endpoint and auth data.
 kubeconfig entry generated for training-yellow-pheonix.
 ```
