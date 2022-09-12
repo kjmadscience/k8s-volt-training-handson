@@ -1,17 +1,17 @@
 # k8s-volt-training-handson
 
-# Volt Active Data With Kubernetes
 > Exercises to build confidence in deploying and maintaining Volt Clusters with Kubernetes.
 ---
 
-This training will be carried out on Google Kubernetes Engine(GKE) which is a service of Google cloud platform. GKE provides the kubernetes cluster which is the base for deploying Volt. However, the steps and operations carried out on volt cluster remain standard over all kubernetes clusters. The kubernetes cluster can be hosted on public cloud or private cloud, the tools used to manage volt cluster on kubernetes are the industry standard KUBECTL, and HELM.
+This training will be carried out on Google Kubernetes Engine(GKE) which is a service of Google cloud platform. GKE provides the kubernetes cluster which is the base for deploying Volt. 
+However, the steps and operations carried out on volt cluster are not limited to GKE and GCP. The kubernetes cluster can be hosted on public cloud or private cloud, the tools used to manage volt cluster on kubernetes are the industry standard KUBECTL, and HELM.
 
 ### Pre-requisites
 
 Tools needed on participant's system:
-- [x] Gloud CLI : to interact with gcloud and GKE 
+- [x] Gloud CLI : to interact with gcloud and GKE
 - [x] kubectl CLI : kubernetes client to call kubernetes server APIs to execute commands from local terminal
-- [x] Helm CLI : Helm client to enable helm operations from local terminal
+- [x] Helm 3 CLI : Helm client to enable helm operations from local terminal
 
 The above tools can be installed following the links provided below. The links are official documents and cover the steps for all possible operating systems.
 
@@ -23,11 +23,15 @@ The above tools can be installed following the links provided below. The links a
 
 ### Setup
 Once installation is done, we are going to check if the installed tools are working fine.
-You will be provided with a `gcloud` command containing access details to your kubernetes cluster which will be used during this training. Run the command on your terminal.
+Follow the steps below to add access to GCP project and kubernetes cluster, that will be used in this training. Run the commands on your terminal.
 
 A successful execution will look like this,
 ```
-bash-5.1$ gcloud container clusters get-credentials training-yellow-pheonix --zone europe-west1-c --project fourth-epigram-293718
+gcloud auth login
+gcloud config set account <<your-email-id>>
+gcloud config set project amdocs-volt-training
+
+$ gcloud container clusters get-credentials training-yellow-pheonix --zone europe-west1-c --project fourth-epigram-293718
 Fetching cluster endpoint and auth data.
 kubeconfig entry generated for training-yellow-pheonix.
 ```
@@ -88,6 +92,7 @@ voltdb/voltdb	1.7.4        	11.3.2     	A Helm chart for VoltDB
 
 We are getting into the real stuff :test_tube:
 Spinning up a Volt cluster that has the following helm properties defined by the user.
+#### Lab 1 
 1. Lets build the required helm install command with the following properties defined by the user,
 
 - Replica count is 3 
@@ -111,7 +116,7 @@ The relevant documentation can be found :link: [here](https://docs.voltdb.com/Ku
 Attach the yaml file and helm install command in your respective solution documents.
 
 ### Verify Installation
-
+#### Lab 2
 Lets verify the configurations were picked up and implemented correctly. 
 Please check status of following entities and attach output to your solution documents.
 Pods, services, statefulsets and deployments, replicaset and volt-logs
