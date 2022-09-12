@@ -73,20 +73,17 @@ bash-5.1$ kubectl get pods -n training-1
 No resources found in training-1 namespace.
 ```
 
-This ensures gcloud access, kubernetes cluster and kubectl are working as we expect and we can move to the next step of verifying Helm Repo access.
-We will begin with adding the Volt Repo using `helm repo add [NAME] [URL]` command. (URL will be shared separately)
-Let us check the charts available in this repo,
+This ensures gcloud access, kubernetes cluster and kubectl are working as we expect and we can move to the next step.
 
-```
-bash-5.1$ helm search repo voltdb/voltdb --versions
-NAME         	CHART VERSION	APP VERSION	DESCRIPTION
-voltdb/voltdb	1.8.2        	11.4.1     	The Helm chart for VoltDB
-voltdb/voltdb	1.8.1        	11.4.0     	A Helm chart for VoltDB
-voltdb/voltdb	1.8.0        	11.4.0     	A Helm chart for VoltDB
-voltdb/voltdb	1.7.5        	11.3.2     	A Helm chart for VoltDB
-voltdb/voltdb	1.7.4        	11.3.2     	A Helm chart for VoltDB
-.......
-```
+The latest helm chart, v1.8.2, will be used for this training. It can be downloaded from the buckets of the project. 
+Google buckets name : volt-training
+Download the tar and extract it to get your training helm chart.
+
+The difference in syntax for local helm charts is,
+
+`helm install CHART-FOLDER/ --set your.properties`
+
+
 ---
 ### Installing Volt Cluster
 
