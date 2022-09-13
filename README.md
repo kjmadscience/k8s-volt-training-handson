@@ -94,16 +94,16 @@ Spinning up a Volt cluster that has the following helm properties defined by the
 
 - Replica count is 3 
 - Resources request and limits both are set to 4vCPU and 8GB RAM
-- Docker image repo and tag
+- Docker image tag as 11.4.1
 
 The relevant documentation can be found :link: [here](https://docs.voltdb.com/KubernetesAdmin/HelmConfigK8sStartup.php#helmconfigtab1)
 
 2. Now to add more complexity, lets define the following properties too in the same command,
 
-- k-factor
-- Sites per host
-- Command log
-- Snapshot
+- k-factor=1
+- Sites per host=6
+- Command log=false
+- Snapshot=false
 
 > Remember, if the command is too big to manage, we can always create a properties YAML file having all the user defined helm properties in correct heirarchy. 
 
