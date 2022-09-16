@@ -264,6 +264,9 @@ The relevant documentation can be found :link: [here](https://docs.voltdb.com/Ku
 ### Pause and resume
 
 Use Helm voltadmin to pause the cluster, then use it again to resume the cluster.
+you can install the plugin using, 
+`helm plugin install \
+https://storage.googleapis.com/voltdb-kubernetes-charts/voltadmin-1.4.2.tgz`
 
 ### Making changes to the deployment
 
